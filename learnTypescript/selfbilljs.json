@@ -1,0 +1,52 @@
+
+     {
+      "ID": "SBINV-14055",
+      "mode":"self",
+      "CoCode":"2000",
+      "IssueDate": "2024-12-18",
+      "IssueTime": "01:40:00Z",
+      "InvoiceTypeCode": "11",
+      "InvoiceTotal": 53000,
+      "DocumentCurrencyCode": "USD",
+      "TaxExchangeRate": 4.75,
+      "CustomsImportForm": "1312312",
+      "Incoterms": "CIF",
+      "SupplierParty": {
+        "LegalName": "Amazon Inc",
+        "SupplierTIN": "C58715578070",
+        "SupplierBRN": "NA",
+        "CityName": "Seattle",
+        "PostalZone": "50000",
+        "CountrySubentityCode": "17",
+        "AddressLines": [
+          "National Landing",
+          "Crystal City",
+          "Virginia"
+        ],
+        "CountryCode": "USA",
+        "Telephone": "+60-123456789",
+        "MSICCode": "46413",
+        "Industry": "Wholesale of clothing"
+      },
+      "PaymentMeansCode": "01",
+      "InvoiceLines": [
+        {
+          "Description": "Item 2",
+          "InvoicedQuantity": 1,
+          "PriceAmount": 50000,
+ 
+
+          "LineTaxes": [  {
+            "TaxType": "01",
+            "TaxBaseUnit": 1,
+            "TaxPerUnit": 10
+          },
+          {
+            "TaxType": "E",
+            "TaxRate": 0,
+            "TaxExemptionReason": "Exempt New Means of Transport"
+          }],
+         "ClassificationCode": ["001", "002", "003"]
+        }
+      ]
+    }

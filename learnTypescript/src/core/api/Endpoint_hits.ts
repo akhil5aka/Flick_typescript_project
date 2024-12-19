@@ -169,6 +169,7 @@ export class Endpoints {
     }
   }
 
+  //cancel invoice  logic start here
 
   async Cancel_invoice(uuid: string, reason: string, supplierUUID: string) {
     try {
@@ -229,6 +230,87 @@ export class Endpoints {
       writeValidationErrorMessage(invoiceNumber, errorMessage);
   
       console.error("Cancellation failed. Error written to file.");
+    }
+  }
+
+
+  //selfbilled logic start here
+  async SelfBilled(documents:any,supplierUUID:string)
+  {
+    try
+    {
+
+      try {
+        console.log("Documents:", documents);
+        console.log("Supplier UUID:", supplierUUID);
+        delete documents.CoCode
+        delete documents.mode
+  
+        // Axios POST request
+        const response = await this.api.post(
+          "/api/einvoice/generate/self-billed-invoice",
+          documents,
+          {
+            headers: {
+              supplier_uuid: supplierUUID,
+            },
+          }
+        );
+  
+        console.log("Response Data:", response.data.data.errors);
+        // process.exit(0)
+  
+        // Extract response data
+        const submissionResponse = response.data.data.submissionResponse;
+        const uuid = submissionResponse.acceptedDocuments[0]?.uuid || "";
+        const submissionUid = submissionResponse.submissionUid || "";
+        const invoiceNumber =
+          submissionResponse.acceptedDocuments[0]?.invoiceCodeNumber || "";
+        const invoiceStatus = response.data.status || "";
+  
+        // Database operation
+        try {
+          const existingRecord = await prisma.tb_invoice.findMany({
+            where: { uuid },
+            select: { invoice_number: true, id: true },
+          });
+  
+          if (existingRecord.length === 0) {
+            writeSuccessMessage(invoiceNumber, "",uuid,invoiceStatus);
+  
+            const newRecord = await prisma.tb_invoice.create({
+              data: {
+                invoice_number: invoiceNumber,
+                uuid,
+                status: invoiceStatus,
+                submissionuid: submissionUid,
+              },
+            });
+  
+            console.log("New record inserted successfully:", newRecord);
+          } else {
+            console.log("Record already exists for UUID:", uuid);
+          }
+        } catch (dbError: any) {
+          console.error("Database operation error:", dbError);
+          if (dbError.code === "P2002") {
+            console.error("Unique constraint violation:", dbError.meta?.target);
+          }
+        }
+  
+        return response.data;
+      } catch (error: any) {
+        console.error(
+          "Error in NormalReportDocuments:",
+          error.response?.data || error.message
+        );
+        throw error;
+      }
+
+    }
+    catch(err)
+    {
+      console.log(err)
     }
   }
   

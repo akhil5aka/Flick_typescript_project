@@ -60,6 +60,12 @@ watcher.on("add", async (filepath: string | Error) => {
 
       console.log("in get status mode");
     }
+
+    else if(data.mode=="self")
+      {
+        points.SelfBilled(data,supplierUUid)
+
+      }
   });
   // moveFileToArchive(filepath)
 });
