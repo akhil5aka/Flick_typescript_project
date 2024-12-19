@@ -1,0 +1,6 @@
+{
+    "status": "validation_error",
+    "invoice_num": "APJD89V1XT9QDSVPYYG89ZEJ10",
+    "document_id_sap": "APJD89V1XT9QDSVPYYG89ZEJ10",
+    "message": "Request failed with status code 400"
+}
