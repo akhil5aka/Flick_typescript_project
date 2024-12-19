@@ -65,6 +65,9 @@ watcher.on("add", async (filepath: string | Error) => {
       {
         points.SelfBilled(data,supplierUUid)
 
+      moveFileToArchive(filepath);
+
+
       }
   });
   // moveFileToArchive(filepath)
